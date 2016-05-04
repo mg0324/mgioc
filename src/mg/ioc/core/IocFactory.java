@@ -58,5 +58,14 @@ public class IocFactory{
 		factory.clear();
 	}
 	
+	/**
+	 * 获取该对象实例从ioc容器中
+	 * @param clazz
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static Object getBean(Class clazz){
+		return factory.get(clazz.getName());
+	}
 	
 }
