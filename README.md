@@ -14,4 +14,4 @@
 	 * java手动代码写入，试用如j2se,j2ee
 	 */
 	private TestService testService = (TestService) IocFactory.getBean(TestService.class);
-
+3.生成mgioc-1.0.jar
