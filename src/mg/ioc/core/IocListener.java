@@ -3,13 +3,16 @@ package mg.ioc.core;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebServlet;
 
 import mg.ioc.annotation.ToBean;
 import mg.ioc.annotation.UseBean;
 import mg.util.PackageUtil;
+import mg.util.PropTool;
 
 /**
  * ioc监听，随web.xml启动 , 单例
@@ -41,7 +44,9 @@ public class IocListener implements ServletContextListener{
 	private void initMgIoc() {
 		//扫描注解加载到ioc工厂中
 		//System.out.println("扫描注解加载到ioc工厂中");
-		String packageName = "mg.test";
+		Properties prop = PropTool.use("mgwork.properties");
+		//未配置就扫描所有package
+		String packageName = prop.getProperty("mgioc.scan.package","");
 		List<String> classNames = PackageUtil.getClassName(packageName);
 		for(String className : classNames){
 			injectToBean(className);
@@ -74,7 +79,7 @@ public class IocListener implements ServletContextListener{
 	 * 解析UseBean注解
 	 * @param className 类名
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void injectUseBean(String className) {
 		try {
 			Class clazz = Class.forName(className);
@@ -83,6 +88,8 @@ public class IocListener implements ServletContextListener{
 			for(Field f : fields){
 				UseBean useBean = f.getAnnotation(UseBean.class);
 				if(null != useBean){
+					//如果是webservlet3.0管理的mgwork的action的类，就不需注入了
+					if(null != clazz.getAnnotation(WebServlet.class)) return ;
 					//System.out.println("className="+clazz.getName()+"的"+f.getName()+"属性 <-- 已被注入. ");
 					//打开访问private的属性
 					f.setAccessible(true);

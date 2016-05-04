@@ -16,4 +16,5 @@ public class TestAction extends MGWorkServlet{
 		testService.save();
 		return "index";
 	}
+	
 }

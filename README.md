@@ -15,4 +15,6 @@
 	 */
 	private TestService testService = (TestService) IocFactory.getBean(TestService.class);
 
-3.生成mgioc-0.1.jar后，整合mgwork到mgioc中生成mgwork-ioc-1.0.jar<br/>
+3.生成mgioc-1.0.jar后，整合mgwork到mgioc中生成mgwork-ioc-1.0.jar（不打jar包，应该是ioc框架整合到mgwork中）<br/>
+4.修复mgioc扫描包路径，从mgwork.properties文件中获取mgioc.scan.package，如果没有配置，就默认所有包。<br/>
+5.修复mgwork的Action是交个servlet3.0管理的(请求对应，非单例)，所以不用mgioc管理的bug.<br/>
