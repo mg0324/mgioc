@@ -10,6 +10,7 @@ public class TestAction extends MGWorkServlet{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	//使用UseBean来注入实例对象从mgioc容器中
 	@UseBean
 	private TestService testService;
 	public String index(){
